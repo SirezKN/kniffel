@@ -14,7 +14,7 @@ export class Dice extends Component<{ state: DiceState, lock: (isLocked: boolean
                 {this.props.state.value != undefined ? this.props.state.value : '?'}
             </button>
             <button onClick={() => this.toggleLock()}>
-                {this.props.state.locked ? 'Behalten' : 'Freigeben'}
+                {!this.props.state.locked ? 'Behalten' : 'Freigeben'}
             </button>
         </div>;
     }

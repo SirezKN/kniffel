@@ -2,62 +2,13 @@ import {Component} from "react";
 import {Dice, DiceState} from "./Dice";
 
 
-export class DiceComponent extends Component<{ dice: (states: DiceState[]) => void }, { dices: DiceState[], dicedTimes: number }> {
+export class DiceComponent extends Component<{ dice: () => void, dices: DiceState[], dicedTimes: number, lockDice: (lock: boolean, i: number) => void }, { }> {
 
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            dices: [
-                {
-                    locked: false,
-                    value: undefined,
-                },
-                {
-                    locked: false,
-                    value: undefined,
-                },
-                {
-                    locked: false,
-                    value: undefined,
-                },
-                {
-                    locked: false,
-                    value: undefined,
-                },
-                {
-                    locked: false,
-                    value: undefined,
-                },
-            ],
-            dicedTimes: 0
-        }
-    }
-
-    private lockDice(lock: boolean, i: number) {
-        this.setState({
-            dices: this.state.dices.map((d, index) => i == index ? {
-                value: d.value,
-                locked: lock
-            } : d)
-        });
-    }
 
     render() {
         return <div>
-            {this.state.dices.map((d, i) => <Dice state={d} lock={(lock: boolean) => this.lockDice(lock, i)}/>)}
-            <button onClick={() => this.dice()}>Würfeln</button>
+            {this.props.dices.map((d, i) => <Dice state={d} lock={(lock: boolean) => this.props.lockDice(lock, i)}/>)}
+            <button onClick={this.props.dice}>Würfeln</button>
         </div>;
-    }
-
-    private dice() {
-        if (this.state.dicedTimes < 3) {
-            this.setState({
-                dices: this.state.dices.map((d, index) => d.locked ? d : {
-                    value: Math.floor(Math.random() * 6) + 1,
-                    locked: d.locked
-                }),
-                dicedTimes: this.state.dicedTimes + 1
-            })
-        }
     }
 }
