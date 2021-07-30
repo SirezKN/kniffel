@@ -250,12 +250,6 @@ export class GameComponent extends Component<{}, {
         </div>;
     }
 
-    private handleDice(states: DiceState[]) {
-        this.setState({
-            currentDices: states
-        })
-    }
-
     private handleFieldClick(kind: KniffelKind) {
         if (!kind.filled && this.state.dicedTimes > 0) {
             this.setState({
@@ -268,9 +262,11 @@ export class GameComponent extends Component<{}, {
                 dicedTimes: 0
             })
         }
-        let l = this.state.currentDices.map(d => d.locked);
+        let l = this.state.currentKnifs.map(d => d.filled);
         let finished = true;
+        console.log(JSON.stringify(l));
         l.forEach(l => !l && (finished = false));
+        console.log(finished);
         if (finished) {
             this.setState({
                 finished: true
